@@ -1,0 +1,142 @@
+{
+  "check_status": true,
+  "commit_type": {
+    "enable": true,
+    "initial_value": "feat",
+    "infer_type_from_branch": true,
+    "append_emoji_to_label": false,
+    "append_emoji_to_commit": false,
+    "options": [
+      {
+        "value": "feat",
+        "label": "feat",
+        "hint": "新增",
+        "emoji": "✨"
+      },
+      {
+        "value": "fix",
+        "label": "fix",
+        "hint": "修复",
+        "emoji": "🐛"
+      },
+      {
+        "value": "docs",
+        "label": "docs",
+        "hint": "改注释，文档说明",
+        "emoji": "📚"
+      },
+      {
+        "value": "style",
+        "label": "style",
+        "hint": "只是调整代码格式，如 QAC"
+      },
+      {
+        "value": "refactor",
+        "label": "refactor",
+        "hint": "重构，不改变功能",
+        "emoji": "🔨"
+      },
+      {
+        "value": "perf",
+        "label": "perf",
+        "hint": "专门指效率优化",
+        "emoji": "🚀"
+      },
+      {
+        "value": "test",
+        "label": "test",
+        "hint": "增加单元测试用例",
+        "emoji": "🚨"
+      },
+      {
+        "value": "chore",
+        "label": "chore",
+        "hint": "杂项，如编译脚本 cmake 等",
+        "emoji": "🧹"
+      }
+    ]
+  },
+  "commit_scope": {
+    "enable": true,
+    "custom_scope": true,
+    "initial_value": "docs",
+    "options": [
+      {
+        "value": "docs",
+        "label": "docs",
+        "hint": "docs"
+      },
+      {
+        "value": "timewheel",
+        "label": "timewheel",
+        "hint": "时间轮"
+      },
+      {
+        "value": "parser",
+        "label": "parser",
+        "hint": "解析层"
+      },
+      {
+        "value": "distributed",
+        "label": "distributed",
+        "hint": "分布式"
+      },
+      {
+        "value": "app",
+        "label": "app",
+        "hint": "项目规范"
+      },
+      {
+        "value": "persistence",
+        "label": "persistence",
+        "hint": "持久层"
+      }
+    ]
+  },
+  "check_ticket": {
+    "infer_ticket": true,
+    "title_position": "start",
+    "surround": "[]"
+  },
+  "commit_title": {
+    "max_size": 120
+  },
+  "commit_body": {
+    "enable": false,
+    "required": false
+  },
+  "commit_footer": {
+    "enable": false,
+    "initial_value": [],
+    "options": ["closes", "breaking-change", "deprecated", "custom"]
+  },
+  "breaking_change": {
+    "add_exclamation_to_title": true
+  },
+  "confirm_commit": true,
+  "print_commit_output": true,
+  "branch_pre_commands": [],
+  "branch_post_commands": [],
+  "worktree_pre_commands": [],
+  "worktree_post_commands": [],
+  "branch_user": {
+    "enable": true,
+    "required": false,
+    "separator": "/"
+  },
+  "branch_type": {
+    "enable": true,
+    "separator": "/"
+  },
+  "branch_ticket": {
+    "enable": true,
+    "required": false,
+    "separator": "-"
+  },
+  "branch_description": {
+    "max_length": 70
+  },
+  "branch_action_default": "branch",
+  "enable_worktrees": true,
+  "overrides": {}
+}
