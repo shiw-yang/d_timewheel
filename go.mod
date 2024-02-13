@@ -1,3 +1,3 @@
 module d_timewheel
 
-go 1.20
+go 1.22
