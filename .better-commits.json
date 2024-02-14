@@ -94,7 +94,7 @@
     ]
   },
   "check_ticket": {
-    "infer_ticket": true,
+    "infer_ticket": false,
     "title_position": "start",
     "surround": "[]"
   },

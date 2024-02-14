@@ -105,11 +105,11 @@ func (tw *TimeWheel) run() {
 		case <-tw.stopc: // 停止时间轮的信号
 			return
 		case <-tw.ticker.C: // 时间轮的刻度间隔触发器
-			go tw.tickHandler()
+			tw.tickHandler()
 		case task := <-tw.addTaskc: // 添加任务的信号
-			go tw.addTaskHandler(task)
+			tw.addTaskHandler(task)
 		case key := <-tw.removeTaskc: // 移除任务的信号
-			go tw.removeTaskHandler(key)
+			tw.removeTaskHandler(key)
 		}
 	}
 }
@@ -176,6 +176,12 @@ func (tw *TimeWheel) execute(taskList *list.List) {
 			}()
 			taskEle.task()
 		}()
+
+		// 执行任务下达，删除任务
+		next := ele.Next()
+		taskList.Remove(ele)
+		delete(tw.key2ETask, taskEle.key)
+		ele = next
 	}
 }
 
