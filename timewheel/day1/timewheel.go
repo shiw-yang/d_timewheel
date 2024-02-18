@@ -8,7 +8,7 @@ import (
 
 // TimeWheel 时间轮数据结构
 type TimeWheel struct {
-	sync.Once                           // 单例工具，保证时间轮的生命周期操作只执行一次
+	once        sync.Once               // 单例工具，保证时间轮生命周期函数并发安全
 	interval    time.Duration           // 时间轮的刻度间隔
 	ticker      *time.Ticker            // 时间轮的刻度间隔触发器
 	slots       []*list.List            // 时间轮的槽
@@ -186,8 +186,8 @@ func (tw *TimeWheel) execute(taskList *list.List) {
 }
 
 func (tw *TimeWheel) Stop() {
-	// 保证时间轮的生命周期操作只执行一次
-	tw.Do(func() {
+	// 保证并发安全
+	tw.once.Do(func() {
 		// 关闭时间轮的触发器
 		tw.ticker.Stop()
 		// 关闭时间轮的信号

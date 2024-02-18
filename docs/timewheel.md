@@ -36,6 +36,8 @@ ok      d_timewheel/timewheel/day1      295.136s
 
 可以从表现和源码分析，这个定时器的时间空间复杂度，都没法在一个数量级内收敛，随着业务越来越大，这个定时器的性能会越来越差。
 
+但在我们预期的定时任务系统中，操作和存储的时间复杂度空间复杂度都希望尽可能收敛到 O(1) 的范围，以应对大量的定时任务，因此需要一个新的定时器实现方式，在现有的功能中获得更好的性能。
+
 ## 时间轮原理
 
 > 通过阅读论文 [Hashed and Hierarchical Timing Wheels: Data Structures for the Efficient Implementation of a Timer Facility ](http://www.cs.columbia.edu/~nahum/w6998/papers/sosp87-timing-wheels.pdf) 来学习和了解时间轮算法。
@@ -60,4 +62,35 @@ ok      d_timewheel/timewheel/day1      295.136s
 
 ## 单极时间轮的实现
 
-TODO:
+> 基于以上的论文分析，我们得知需要有一个时间轮的数据结构，一个定时任务的数据结构。
+
+1. 时间轮类定义
+
+```go
+// TimeWheel 时间轮数据结构
+type TimeWheel struct {
+	once        sync.Once               // 单例工具，保证时间轮生命周期函数并发安全
+	interval    time.Duration           // 时间轮的刻度间隔
+	ticker      *time.Ticker            // 时间轮的刻度间隔触发器
+	slots       []*list.List            // 时间轮的槽
+	currentSlot int                     // 当前槽
+	stopc       chan struct{}           // 停止时间轮的信号
+	addTaskc    chan *taskElement       // 添加任务的信号
+	removeTaskc chan int64              // 移除任务的信号, 任务ID
+	key2ETask   map[int64]*list.Element // 任务key到任务的映射,用与快速删除查找链表节点
+}
+```
+
+2. 任务类定义
+
+> 由于我们只所有的任务都只触发一次，因此一个任务里面只需要记录在时间轮内的相对位置即可
+
+```go
+// taskElement 时间轮的任务元素
+type taskElement struct {
+	task  func() // 任务函数
+	pos   int    // 任务在时间轮的槽的位置
+	cycle int    // 任务的周期
+	key   int64  // 任务的唯一标识
+}
+```

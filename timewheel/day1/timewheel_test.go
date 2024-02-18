@@ -9,14 +9,31 @@ import (
 )
 
 func TestNewTimeWheel(t *testing.T) {
+	count := 0
 	tw := timewheel.NewTimeWheel(time.Second, 60)
 	defer tw.Stop()
-	time.Sleep(time.Second * 3)
-	t.Log("sleep 3 seconds")
-	tw.AddTask(1, func() {
-		t.Log("cron task execute")
-	}, time.Now().Add(time.Second*10))
-	time.Sleep(15 * time.Second)
+
+	tw.AddTask(
+		1,
+		func() { count++ },
+		time.Now().Add(time.Second*1),
+	)
+	tw.AddTask(
+		2,
+		func() { count++ },
+		time.Now().Add(time.Second*4),
+	)
+	tw.AddTask(
+		3,
+		func() { count++ },
+		time.Now().Add(time.Second*7),
+	)
+
+	time.Sleep(5 * time.Second)
+	if count != 2 {
+		t.Fatal("cron task execute error")
+	}
+
 }
 
 func benchmarkCron(t *testing.B, n int) {
